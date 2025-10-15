@@ -1,7 +1,11 @@
-import Chat from "@/components/chat"
+import Chat from "@/components/chat";
 
 function App() {
-  return <Chat />
+  return (
+    <div className="w-full h-screen">
+      <Chat />
+    </div>
+  );
 }
 
-export default App
+export default App;
