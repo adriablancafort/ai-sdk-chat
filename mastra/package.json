@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.52",
+    "@mastra/ai-sdk": "^0.2.0",
     "@mastra/core": "^0.20.2",
     "@mastra/libsql": "^0.15.1",
     "@mastra/loggers": "^0.10.15",

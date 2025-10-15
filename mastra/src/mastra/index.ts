@@ -4,6 +4,7 @@ import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
+import { chatRoute } from '@mastra/ai-sdk';
 
 export const mastra = new Mastra({
   workflows: { weatherWorkflow },
@@ -24,4 +25,12 @@ export const mastra = new Mastra({
     // Enables DefaultExporter and CloudExporter for AI tracing
     default: { enabled: true }, 
   },
-});
+  server: {
+    apiRoutes: [
+      chatRoute({
+        path: '/chat',
+        agent: 'weatherAgent',
+      }),
+    ],
+  },
+}); 
