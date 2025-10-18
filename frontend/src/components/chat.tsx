@@ -43,7 +43,9 @@ import {
   ReasoningTrigger,
 } from '@/components/ai-elements/reasoning';
 import { Loader } from '@/components/ai-elements/loader';
-import { Weather, type WeatherAtLocation } from '@/components/weather';
+import { EmployeeCard } from '@/components/employee-card';
+import { ContractCard } from '@/components/contract-card';
+import { WorkingTimeCard } from '@/components/working-time-card';
 
 const models = [
   {
@@ -117,16 +119,31 @@ const Chat = () => {
                   </Sources>
                 )}
                 {message.parts.map((part, i) => {
-                  if (part.type === 'tool-weatherTool' && 'output' in part && part.output) {
-                    const weatherData = part.output as WeatherAtLocation;
-                    if (weatherData.current && weatherData.hourly && weatherData.daily) {
-                      return (
-                        <Weather 
-                          key={`${message.id}-${i}`} 
-                          weatherAtLocation={weatherData} 
-                        />
-                      );
-                    }
+if (part.type === 'tool-createEmployeeTool' && 'output' in part && part.output) {
+                    return (
+                      <EmployeeCard 
+                        key={`${message.id}-${i}`} 
+                        employee={part.output as any} 
+                      />
+                    );
+                  }
+
+                  if (part.type === 'tool-createContractTool' && 'output' in part && part.output) {
+                    return (
+                      <ContractCard 
+                        key={`${message.id}-${i}`} 
+                        contract={part.output as any} 
+                      />
+                    );
+                  }
+
+                  if (part.type === 'tool-checkWorkingTimeTool' && 'output' in part && part.output) {
+                    return (
+                      <WorkingTimeCard 
+                        key={`${message.id}-${i}`} 
+                        workingTime={part.output as any} 
+                      />
+                    );
                   }
 
                   switch (part.type) {
