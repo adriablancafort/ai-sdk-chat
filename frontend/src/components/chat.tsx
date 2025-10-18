@@ -43,6 +43,7 @@ import {
   ReasoningTrigger,
 } from '@/components/ai-elements/reasoning';
 import { Loader } from '@/components/ai-elements/loader';
+import { Weather, type WeatherAtLocation } from '@/components/weather';
 
 const models = [
   {
@@ -116,6 +117,18 @@ const Chat = () => {
                   </Sources>
                 )}
                 {message.parts.map((part, i) => {
+                  if (part.type === 'tool-weatherTool' && 'output' in part && part.output) {
+                    const weatherData = part.output as WeatherAtLocation;
+                    if (weatherData.current && weatherData.hourly && weatherData.daily) {
+                      return (
+                        <Weather 
+                          key={`${message.id}-${i}`} 
+                          weatherAtLocation={weatherData} 
+                        />
+                      );
+                    }
+                  }
+
                   switch (part.type) {
                     case 'text':
                       return (
@@ -127,7 +140,7 @@ const Chat = () => {
                               </Response>
                             </MessageContent>
                           </Message>
-                          {message.role === 'assistant' && i === messages.length - 1 && (
+                          {message.role === 'assistant' && i === message.parts.length - 1 && (
                             <Actions className="mt-2">
                               <Action
                                 onClick={() => regenerate()}
@@ -158,6 +171,8 @@ const Chat = () => {
                           <ReasoningContent>{part.text}</ReasoningContent>
                         </Reasoning>
                       );
+                    case 'step-start':
+                      return null;
                     default:
                       return null;
                   }

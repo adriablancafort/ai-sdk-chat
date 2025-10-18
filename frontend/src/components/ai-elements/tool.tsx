@@ -112,8 +112,8 @@ export const ToolInput = ({ className, input, ...props }: ToolInputProps) => (
 );
 
 export type ToolOutputProps = ComponentProps<"div"> & {
-  output: ToolUIPart["output"];
-  errorText: ToolUIPart["errorText"];
+  output?: ToolUIPart["output"];
+  errorText?: ToolUIPart["errorText"];
 };
 
 export const ToolOutput = ({
